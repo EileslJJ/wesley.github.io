@@ -2,7 +2,6 @@
 import { onMounted } from 'vue';
 import { watch } from 'vue';
 import { ref } from 'vue'
-import Img1 from '../../src/assets/img/jiayou.jfif'
 defineProps<{ msg: string }>()
 const basicDate = new Date('2024/07/31')
 const showCalendar1 = ref(false)
@@ -144,7 +143,7 @@ onMounted(() => {
     width="10rem"
     height="10rem"
     fit="contain"
-    :src="Img1"
+    src="jiayou.jfif"
   />
   </div>
 
