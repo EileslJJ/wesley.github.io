@@ -2,7 +2,6 @@
 import { onMounted } from 'vue';
 import { watch } from 'vue';
 import { ref } from 'vue'
-import Img1 from '../../src/assets/img/jiayou.jfif'
 defineProps<{ msg: string }>()
 const basicDate = new Date('2024/07/31')
 const showCalendar1 = ref(false)
@@ -24,7 +23,6 @@ const onConfirm2 = (date:Date) => {
 };
 const currentDesc = ref('')
 const currentDaySche = ref('')
-const checked = ref('-1')
 const paibanList = [{
   label: '白班第一天',
   value: '0',
@@ -59,7 +57,7 @@ const paibanList = [{
 
 const descText = ref('')
 
-const mapDesc = (val: Number) => {
+const mapDesc = (val: number) => {
   if(val%6 === 0) {
     currentDesc.value = paibanList[0].label
     descText.value = '加油，元气满满的一天！'
@@ -145,7 +143,7 @@ onMounted(() => {
     width="10rem"
     height="10rem"
     fit="contain"
-    :src="Img1"
+    src="jiayou.jfif"
   />
   </div>
 
