@@ -2,6 +2,7 @@
 import { onMounted } from 'vue';
 import { watch } from 'vue';
 import { ref } from 'vue'
+
 defineProps<{ msg: string }>()
 const basicDate = new Date('2024/07/31')
 const showCalendar1 = ref(false)
@@ -23,6 +24,7 @@ const onConfirm2 = (date:Date) => {
 };
 const currentDesc = ref('')
 const currentDaySche = ref('')
+const imagSrc = ref('')
 const paibanList = [{
   label: '白班第一天',
   value: '0',
@@ -59,19 +61,31 @@ const descText = ref('')
 
 const mapDesc = (val: number) => {
   if(val%6 === 0) {
-    currentDesc.value = paibanList[0].label
+    currentDesc.value = selectedDate.value && paibanList[0].label
     descText.value = '加油，元气满满的一天！'
+    imagSrc.value = 'jiayou.jfif'
   } else if( val%6 === 1) {
-    currentDesc.value  = paibanList[1].label
+    currentDesc.value  = selectedDate.value && paibanList[1].label
     descText.value = '加油，元气满满的一天！'
+    imagSrc.value = 'jiayou.jfif'
   } else if(val%6 === 2) {
+    descText.value = selectedDate.value && '加油，元气满满的一天！'
+
     currentDesc.value  = paibanList[2].label
+    imagSrc.value = 'jiayou.jfif'
+    
   } else if(val%6 === 3) {
-    currentDesc.value  = paibanList[3].label
+    currentDesc.value  = selectedDate.value && paibanList[3].label
+    descText.value = '熬最晚的夜，看最早的太阳!'
+    imagSrc.value = 'yeban.gif'
   } else if(val%6 === 4) {
-    currentDesc.value  = paibanList[4].label
+    currentDesc.value  = selectedDate.value &&  paibanList[4].label
+    descText.value = '天亮了，下班了，该休息了'
+    imagSrc.value = 'xiayeban.gif'
   }else if(val%6 === 5) {
-    currentDesc.value  = paibanList[5].label
+    currentDesc.value  =  selectedDate.value && paibanList[5].label
+    descText.value = '我的快乐回来了。。'
+    imagSrc.value = 'xiujia.jpeg'
   }
 }
 
@@ -143,7 +157,7 @@ onMounted(() => {
     width="10rem"
     height="10rem"
     fit="contain"
-    src="jiayou.jfif"
+    :src="imagSrc"
   />
   </div>
 
