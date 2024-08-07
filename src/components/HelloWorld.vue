@@ -104,8 +104,9 @@ const formatter = (day: any) => {
 onMounted(() => {
   const _currentDate =  new Date(targetDate.value).setHours(0,0,0)
   diffValue.value =( _currentDate - basicDate.getTime())/1000/60/60/24
-  currentDaySche.value = paibanList[diffValue.value].label
-
+  console.log(diffValue.value)
+  currentDaySche.value = paibanList[diffValue.value%6].label
+  
 })
 </script>
 
