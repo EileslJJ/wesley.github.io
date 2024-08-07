@@ -127,6 +127,7 @@ onMounted(() => {
       <van-field
         v-model="currentDaySche"
         label="当前排班"
+        disabled
       />
       <!-- <van-field name="radio" label="单选框">
         <template #input>
@@ -149,6 +150,7 @@ onMounted(() => {
         v-model="currentDesc"
         label="所选日期排班"
         placeholder="排班"
+        disabled
       />
   </van-form>
   <h4>
