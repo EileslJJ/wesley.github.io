@@ -104,8 +104,9 @@ const formatter = (day: any) => {
 onMounted(() => {
   const _currentDate =  new Date(targetDate.value).setHours(0,0,0)
   diffValue.value =( _currentDate - basicDate.getTime())/1000/60/60/24
-  currentDaySche.value = paibanList[diffValue.value].label
-
+  console.log(diffValue.value)
+  currentDaySche.value = paibanList[diffValue.value%6].label
+  
 })
 </script>
 
@@ -126,6 +127,7 @@ onMounted(() => {
       <van-field
         v-model="currentDaySche"
         label="当前排班"
+        disabled
       />
       <!-- <van-field name="radio" label="单选框">
         <template #input>
@@ -148,6 +150,7 @@ onMounted(() => {
         v-model="currentDesc"
         label="所选日期排班"
         placeholder="排班"
+        disabled
       />
   </van-form>
   <h4>
