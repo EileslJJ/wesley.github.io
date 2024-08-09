@@ -92,22 +92,94 @@ const mapDesc = (val: number) => {
 watch(diffValue,(val) => {
   mapDesc(val)
 })
-
+const tableData = ref([]) as any
 const formatter = (day: any) => {
   const time1 = day.date.getTime()
   const diff = (time1 - basicDate.getTime())/1000/60/60/24
   
   day.topInfo = paibanList[diff%6].label1
+  // if(day.date.getFullYear() < 2025) {
+  //   if(day.date.toString().includes('Sat')) {
+  //     if(diff%6 === 4 ||diff%6 === 5) {
+  //       tableData.value.push({
+  //         week: '周六',
+  //         date: day.date.toLocaleString(),
+  //         name: day.topInfo
+  //       })
+  //     }
 
+  //   } else if (day.date.toString().includes('Sun')) {
+  //     if(diff%6 === 4 ||diff%6 === 5) {
+  //       tableData.value.push({
+  //         week: '周日',
+  //         date: day.date.toLocaleString(),
+  //         name: day.topInfo
+  //       })
+  //     }
+  //   }
+  // }
+  // console.log(tableData.value)
   return day;
 };
+const allDates = ref([]) as any
 onMounted(() => {
+  tableData.value.push({
+    name: '排班',
+    week: '星期',
+    date:  '日期'
+  })
   const _currentDate =  new Date(targetDate.value).setHours(0,0,0)
   diffValue.value =( _currentDate - basicDate.getTime())/1000/60/60/24
   console.log(diffValue.value)
   currentDaySche.value = paibanList[diffValue.value%6].label
-  
+  allDates.value = getAllDates()
+  mapDates(allDates.value)
 })
+
+const mapDates = (arr: any) => {
+  arr.forEach(day => {
+    const time1 = day.getTime()
+  const diff = (time1 - basicDate.getTime())/1000/60/60/24
+  
+  const _text = paibanList[diff%6].label1
+  if(day.getFullYear() < 2025) {
+    if(day.toString().includes('Sat')) {
+      if(diff%6 === 4 ||diff%6 === 5) {
+        tableData.value.push({
+          week: '周六',
+          date: day.toLocaleString().split(" ")[0],
+          name: _text
+        })
+      }
+
+    } else if (day.toString().includes('Sun')) {
+      if(diff%6 === 4 ||diff%6 === 5) {
+        tableData.value.push({
+          week: '周日',
+          date: day.toLocaleString().split(" ")[0],
+          name: _text
+        })
+      }
+    }
+  }
+  });
+}
+
+
+const getAllDates = ()  => {
+  const year = 2024; // 指定年份
+  const dates = [];
+  for (let month = 7; month < 12; month++) {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    for (let day = 1; day <= daysInMonth; day++) {
+      dates.push(new Date(year, month, day));
+    }
+  }
+  return dates
+}
+
+const calendarRef = ref(null)
+console.log(calendarRef.value,'sdfsd')
 </script>
 
 <template>
@@ -125,6 +197,7 @@ onMounted(() => {
       />
       <van-calendar disabled v-model:show="showCalendar1" />
       <van-field
+        disabled
         v-model="currentDaySche"
         label="当前排班"
       />
@@ -144,11 +217,12 @@ onMounted(() => {
         placeholder="点击选择日期"
         @click="showCalendar2 = true"
       />
-      <van-calendar v-model:show="showCalendar2" @confirm="onConfirm2" :formatter="formatter" title="排班日期"/>
+      <van-calendar ref="calendarRef" v-model:show="showCalendar2" @confirm="onConfirm2" :formatter="formatter" title="排班日期"/>
       <van-field
         v-model="currentDesc"
         label="所选日期排班"
         placeholder="排班"
+        disabled
       />
   </van-form>
   <h4>
@@ -160,14 +234,30 @@ onMounted(() => {
     fit="contain"
     :src="imagSrc"
   />
+  <div>
+    <van-cell v-for="(item,index) in tableData" :key="item.date"  :class="[`item${index}`]">
+      <span style="width: 30%">{{ item.date }}</span>
+      <span>{{ item.week }}</span>
+      <span>{{ item.name }}</span>
+    </van-cell>
+  </div>
   </div>
 
 
   
 </template>
 
-<style scoped>
+<style>
 .read-the-docs {
   color: #888;
+}
+.van-cell__value {
+  display: flex;
+  justify-content: space-between;
+}
+.item0 .van-cell__value{
+   
+    font-weight: bold;
+    color: black;
 }
 </style>
