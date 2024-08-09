@@ -137,7 +137,7 @@ onMounted(() => {
 })
 
 const mapDates = (arr: any) => {
-  arr.forEach(day => {
+  arr.forEach((day: Date) => {
     const time1 = day.getTime()
   const diff = (time1 - basicDate.getTime())/1000/60/60/24
   
